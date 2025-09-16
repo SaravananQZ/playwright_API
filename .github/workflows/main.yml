@@ -21,4 +21,4 @@ jobs:
         run: npm ci
       # Runs a single command using the runners shell
       - name: Run playwright
-        run: cross-env test_env=test npx playwright test
+        run: npm run env:test
