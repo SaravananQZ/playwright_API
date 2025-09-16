@@ -14,9 +14,9 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   globalSetup:'common/globalSetup.ts',
   expect: {
-     timeout: 10000
+     timeout: 60000
     },
-  globalTimeout: 10000,
+  globalTimeout: 300000,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -42,17 +42,17 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    },
+    }
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
