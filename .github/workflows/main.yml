@@ -19,6 +19,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
       # Runs a single command using the runners shell
       - name: Run playwright
         run: npm run env:test
