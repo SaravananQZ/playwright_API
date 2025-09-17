@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "env:test": "cross-env test_env=test npx playwright test"
+    "env:test": "npx cross-env test_env=test npx playwright test"
   },
   "keywords": [],
   "author": "",
