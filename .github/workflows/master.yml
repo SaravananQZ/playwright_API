@@ -1,4 +1,4 @@
-name: OLBCI_PUSH
+name: OLBCI_PUSH_MASTER
 
 # Controls when the workflow will run
 on:
