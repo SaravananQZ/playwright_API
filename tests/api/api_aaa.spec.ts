@@ -79,8 +79,6 @@ test("Create OLB", async ({ request,page },testInfo) => {
     await fs.promises.writeFile(templatefilepath, JSON.stringify(createdata, null, 2), "utf-8");
     const response = await request.post(`${process.env.API_URL}/createolb`); // mock server
     expect(response.status()).toBe(payloaddata.status);
-    // const reponsetxt = response.text;
-    // console.log('Response Text: olbcreation ', reponsetxt);
     const text = await response.json();
     console.log('Response Text:', text);
     
