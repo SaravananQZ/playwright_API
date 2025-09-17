@@ -1,0 +1,24 @@
+name: SCHEDULE_JOB
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '* * * * *'
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      # Runs a single command using the runners shell
+      - name: Run playwright
+        run: npm run env:test
