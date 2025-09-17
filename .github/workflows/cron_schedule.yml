@@ -23,3 +23,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run playwright
         run: npm run env:test
+        # Upload Playwright report as artifact
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report\index.html
