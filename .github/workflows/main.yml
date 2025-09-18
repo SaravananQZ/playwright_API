@@ -30,3 +30,5 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report\index.html
+      -  name: Save report locally
+         run: move playwright-report D:\Reports\Playwright
