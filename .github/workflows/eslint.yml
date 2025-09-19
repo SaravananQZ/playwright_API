@@ -28,4 +28,6 @@ jobs:
       # If lint fails, notify pusher by email
       - name: Send mail on ESLint error
         if: failure()   # <-- runs only 
-        run: echo "Sending Email to ${{ github.ref_name }}"
+        run: |
+          echo "ESLint failed!"
+          echo "Pushed by: ${{ github.event.pusher.name }} <${{ github.event.pusher.email }}>"
