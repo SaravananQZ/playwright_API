@@ -30,5 +30,15 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report\index.html
-      -  name: Save report locally
-         run: move playwright-report "D:\Reports\Playwright"
+      # -  name: Save report locally
+      #    run: move playwright-report "D:\Reports\Playwright"
+      - name: Move Playwright report to D:\Reports\Playwright
+        run: |
+          # Make sure destination folder exists
+          if (-Not (Test-Path "D:\Reports\Playwright")) {
+            New-Item -Path "D:\Reports\Playwright" -ItemType Directory -Force
+          }
+      
+          # Move the report folder
+          Move-Item -Path "${{ github.workspace }}\playwright-report" -Destination "D:\Reports\Playwright" -Force
+        shell: pwsh
