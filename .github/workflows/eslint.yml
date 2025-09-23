@@ -1,9 +1,9 @@
 name: CODE Analysis - ESLINT
 
 on:
-  push:
+  pull_request:
     branches:
-      - dev        # run jobs on pushes to dev
+      - dev 
   pull_request_target:   
     branches:
       - main      
@@ -34,6 +34,7 @@ jobs:
         run: |
           echo "ESLint failed!"
           echo "Pushed by: ${{ github.event.pusher.name }} <${{ github.event.pusher.email }}>"
+          echo "PR opened by: ${{ github.actor }}"
 
   Run_Smoke:
      # The type of runner that the job will run on
