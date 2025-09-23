@@ -35,11 +35,6 @@ jobs:
   Run Smoke Test:
      # The type of runner that the job will run on
     runs-on: windows-latest
-
-
-    steps:
-      
-    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
