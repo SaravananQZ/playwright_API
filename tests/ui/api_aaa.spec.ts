@@ -1,18 +1,20 @@
-const { test, expect } = require("@playwright/test");
-const fs = require('fs')
+// const { test, expect } = require("@playwright/test");
+// const fs = require('fs')
+import { test, expect } from "@playwright/test";
+import * as fs from "fs";
 import { xlscls } from '../../common/excelconnection';
 import { TestRail } from '../../common/testrailconnection';
 
-let testdataval: any;
-let excelreader:any;
-let tr:any;
-let tr_projectid:any;
-let tr_newRunid:any;
+// let testdataval;
+let excelreader;
+let tr;
+let tr_projectid;
+let tr_newRunid;
 let testdata;
-test.beforeAll(async ({request}) => {
+test.beforeAll(async () => {
   // Launch browser and create a context once for all tests in this describe block
   excelreader = new xlscls('testdata/apitestdata.xlsx', 'Main');
-  testdataval = excelreader.getRowsExcel();
+  excelreader.getRowsExcel();
 
   tr = new TestRail();
   tr_projectid =await tr.getProjects("OLBAPI");
@@ -31,28 +33,28 @@ test.beforeAll(async ({request}) => {
 test.afterAll(async () => {
   console.log('Cleanup after all tests in this file.');
 });
-test.beforeEach(async ({ page },testInfo) => {
-    let testcasename = test.info().title;
+test.beforeEach(async () => {
+    const testcasename = test.info().title;
     testdata = excelreader.getTestcaseDetails(testcasename)
 });
 
 test.afterEach(async ({ page },testInfo) => {
   console.log(`Finished ${test.info().title} with status ${test.info().status}`);
 
-  let caseid = await tr.getCaseID(tr_projectid,test.info().title);
+  const caseid = await tr.getCaseID(tr_projectid,test.info().title);
 
   const responseStatus = testInfo.annotations.find(a => a.type === "responseStatus");
   const responseBody = testInfo.annotations.find(a => a.type === "responseBody");
-
+  console.log(`responseStatus ${responseStatus}  ${responseBody}`);
   const statusId = testInfo.status === "passed" ? 1 : 5; // 1=Passed, 5=Failed
 
-  await tr.addResult(tr_newRunid,caseid,statusId),responseBody.description;
+  await tr.addResult(tr_newRunid,caseid,statusId,"test");
   if (test.info().status !== test.info().expectedStatus)
     console.log(`Did not run as expected, ended up at ${page.url()}`);
 });
 
 
-test("Get OLB", async ({ request,page },testInfo) => {
+test("Get OLB", async ({ request },testInfo) => {
   // Get the response and add to it
   const response = await request.get(`${process.env.API_URL}/getolbdetails`); // mock server
   expect(response.status()).toBe(200);
@@ -64,16 +66,19 @@ test("Get OLB", async ({ request,page },testInfo) => {
   testInfo.annotations.push({ type: "responseBody", description: await response.text() });
 });
 
-test("Create OLB", async ({ request,page },testInfo) => {
+test("Create OLB", async ({ request },testInfo) => {
     // Get the response and add to it
     const templatename = "olbcreation";
     console.log(test.info().title);
-    let testcasename = test.info().title
-    let payloaddata = testdata
+    // let testcasename = test.info().title
+    const payloaddata = testdata
     const currentDirectory = process.cwd();
 
     const templatefilepath = `${currentDirectory}\\testdata\\api_templates\\${templatename}.json`
-    const createdata = require(templatefilepath);
+    // const createdata = require(templatefilepath);
+    const fileContents = fs.readFileSync(templatefilepath, "utf-8");
+    const createdata = JSON.parse(fileContents);
+    
     createdata.name = payloaddata.name;
     createdata.insureamount = payloaddata.amount;
     await fs.promises.writeFile(templatefilepath, JSON.stringify(createdata, null, 2), "utf-8");

@@ -1,6 +1,9 @@
 name: CODE Analysis - ESLINT
 
 on:
+  push:
+    branches:
+      - dev        # run jobs on pushes to dev
   pull_request_target:   
     branches:
       - main      
@@ -50,3 +53,4 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report\index.html
+
