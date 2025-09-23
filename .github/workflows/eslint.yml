@@ -1,4 +1,4 @@
-name: ESLINT
+name: CODE Analysis - ESLINT
 
 # Controls when the workflow will run
 on:
