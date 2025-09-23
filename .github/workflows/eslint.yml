@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  Code Analysis:
+  Code_Analysis:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
@@ -32,7 +32,7 @@ jobs:
           echo "ESLint failed!"
           echo "Pushed by: ${{ github.event.pusher.name }} <${{ github.event.pusher.email }}>"
 
-  Run Smoke Test:
+  Run_Smoke_Test:
      # The type of runner that the job will run on
     runs-on: windows-latest
     steps:
