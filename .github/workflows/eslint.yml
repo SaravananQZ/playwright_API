@@ -32,7 +32,7 @@ jobs:
           echo "ESLint failed!"
           echo "Pushed by: ${{ github.event.pusher.name }} <${{ github.event.pusher.email }}>"
 
-  Run_Smoke_Test:
+  Run_Smoke:
      # The type of runner that the job will run on
     runs-on: windows-latest
     steps:
