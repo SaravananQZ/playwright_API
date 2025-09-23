@@ -1,5 +1,12 @@
 import axios from "axios";
 
+interface AddRunRequest {
+  name: string;
+  description: string;
+  include_all: boolean;
+  case_ids?: number[];
+}
+
 export class TestRail {
   TESTRAIL_URL: string;
   USERNAME: string;
@@ -22,10 +29,10 @@ export class TestRail {
           },
         }
       );
-      const project = response.data.projects.find((p: any) => p.name === projectname);
+      const project = response.data.projects.find((p) => p.name === projectname);
       return project ? project.id : null;
     //   return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error fetching projects:", error.response?.data || error.message);
       throw error;
     }
@@ -42,10 +49,10 @@ export class TestRail {
           },
         }
       );
-      const caseinfo = response.data.cases.find((p: any) => p.title === casename);
+      const caseinfo = response.data.cases.find((p) => p.title === casename);
       return caseinfo ? caseinfo.id : null;
     //   return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error fetching projects:", error.response?.data || error.message);
       throw error;
     }
@@ -53,7 +60,7 @@ export class TestRail {
 
   async addRun(projectId: number, runName: string, description: string, caseIds?: number[]) {
     try {
-      const body: any = {
+      const body: AddRunRequest = {
         name: runName,
         description: description,
         include_all: caseIds ? false : true, // if no caseIds passed, include all
@@ -79,7 +86,7 @@ export class TestRail {
   
       console.log("✅ Run created:", response.data);
       return response.data; // contains run id and details
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         "❌ Error creating run:",
         error.response?.data || error.message
@@ -100,7 +107,7 @@ export class TestRail {
         }
       );
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error fetching runs:", error.response?.data || error.message);
       throw error;
     }
@@ -123,7 +130,7 @@ export class TestRail {
         }
       );
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error adding result:", error.response?.data || error.message);
       throw error;
     }
