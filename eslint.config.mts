@@ -21,7 +21,7 @@ export default defineConfig([
       prettier: prettierPlugin,
     },
     rules: {
-      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": "error",
       "no-console": "off",
       semi: ["warn", "always"],
       quotes: ["warn", "double"],
