@@ -27,18 +27,23 @@ export class TestRail {
             username: this.USERNAME,
             password: this.API_KEY,
           },
-        }
+        },
       );
-      const project = response.data.projects.find((p) => p.name === projectname);
+      const project = response.data.projects.find(
+        (p) => p.name === projectname,
+      );
       return project ? project.id : null;
-    //   return response.data;
+      //   return response.data;
     } catch (error) {
-      console.error("Error fetching projects:", error.response?.data || error.message);
+      console.error(
+        "Error fetching projects:",
+        error.response?.data || error.message,
+      );
       throw error;
     }
   }
 
-  async getCaseID(projectid,casename) {
+  async getCaseID(projectid, casename) {
     try {
       const response = await axios.get(
         `${this.TESTRAIL_URL}/index.php?/api/v2/get_cases/${projectid}`,
@@ -47,29 +52,37 @@ export class TestRail {
             username: this.USERNAME,
             password: this.API_KEY,
           },
-        }
+        },
       );
       const caseinfo = response.data.cases.find((p) => p.title === casename);
       return caseinfo ? caseinfo.id : null;
-    //   return response.data;
+      //   return response.data;
     } catch (error) {
-      console.error("Error fetching projects:", error.response?.data || error.message);
+      console.error(
+        "Error fetching projects:",
+        error.response?.data || error.message,
+      );
       throw error;
     }
   }
 
-  async addRun(projectId: number, runName: string, description: string, caseIds?: number[]) {
+  async addRun(
+    projectId: number,
+    runName: string,
+    description: string,
+    caseIds?: number[],
+  ) {
     try {
       const body: AddRunRequest = {
         name: runName,
         description: description,
         include_all: caseIds ? false : true, // if no caseIds passed, include all
       };
-  
+
       if (caseIds) {
         body.case_ids = caseIds; // restrict run to specific test cases
       }
-  
+
       const response = await axios.post(
         `${this.TESTRAIL_URL}/index.php?/api/v2/add_run/${projectId}`,
         body,
@@ -81,20 +94,20 @@ export class TestRail {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
-  
+
       console.log("✅ Run created:", response.data);
       return response.data; // contains run id and details
     } catch (error) {
       console.error(
         "❌ Error creating run:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
       throw error;
     }
   }
-  
+
   async getRuns(projectId: number) {
     try {
       const response = await axios.get(
@@ -104,18 +117,26 @@ export class TestRail {
             username: this.USERNAME,
             password: this.API_KEY,
           },
-        }
+        },
       );
       return response.data;
     } catch (error) {
-      console.error("Error fetching runs:", error.response?.data || error.message);
+      console.error(
+        "Error fetching runs:",
+        error.response?.data || error.message,
+      );
       throw error;
     }
   }
 
-  async addResult(runId: number, caseId: number, statusId: number, comment: string) {
+  async addResult(
+    runId: number,
+    caseId: number,
+    statusId: number,
+    comment: string,
+  ) {
     try {
-    // const resultid = statusId === 200 ? 1 : 2;
+      // const resultid = statusId === 200 ? 1 : 2;
       const response = await axios.post(
         `${this.TESTRAIL_URL}/index.php?/api/v2/add_result_for_case/${runId}/${caseId}`,
         {
@@ -127,11 +148,14 @@ export class TestRail {
             username: this.USERNAME,
             password: this.API_KEY,
           },
-        }
+        },
       );
       return response.data;
     } catch (error) {
-      console.error("Error adding result:", error.response?.data || error.message);
+      console.error(
+        "Error adding result:",
+        error.response?.data || error.message,
+      );
       throw error;
     }
   }
