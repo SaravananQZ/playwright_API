@@ -12,6 +12,7 @@ let tr_projectid;
 let tr_newRunid;
 let testdata;
 let unused; //eslint
+let unused1; //eslint
 test.beforeAll(async () => {
   // Launch browser and create a context once for all tests in this describe block
   excelreader = new xlscls("testdata/apitestdata.xlsx", "Main");
